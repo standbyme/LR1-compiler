@@ -1,6 +1,7 @@
 package StandbyMe.lexer
 
 import StandbyMe.compiler.universal.SyntacticSymbol._
+import StandbyMe.compiler.universal.Token
 
 import scala.annotation.tailrec
 

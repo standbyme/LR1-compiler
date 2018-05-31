@@ -20,18 +20,7 @@ package object universal {
     val V: Set[Value] = values.filter(isNonTerminal)
   }
 
-
-  //  object CodeOfKindEnums extends Enumeration {
-  //    type CodeOfKindEnum = Value
-  //    val Starter = Value
-  //    val IF, ELSE = Value
-  //    val ASSIGN, GE, GT, EQ = Value
-  //    val PLUS, MINUS, MULTI = Value
-  //    val INT, ID = Value
-  //    val LR_BRAC, RR_BRAC, SEMIC = Value
-  //  }
-
-  case class Token(syntactic_symbol: SyntacticSymbol.SyntacticSymbol, attribute_value: String)
+  type Token = (SyntacticSymbol.SyntacticSymbol, String)
 
   trait Node
 

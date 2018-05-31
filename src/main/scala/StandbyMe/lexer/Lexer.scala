@@ -2,7 +2,7 @@ package StandbyMe.lexer
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
-
+import StandbyMe.compiler.universal.Token
 object Lexer {
 
   @tailrec

@@ -9,7 +9,6 @@ object Run extends App {
   val result = Lexer(code).toVector
   result.foreach(println)
   val init_buffer: Vector[Token] = result ++ Vector((SyntacticSymbol.$, null))
-  // , Token(SyntacticSymbol.ID, "a"), Token(SyntacticSymbol.ASSIGN, null), Token(SyntacticSymbol.INT, "1"), Token(SyntacticSymbol.PLUS, null), Token(SyntacticSymbol.ID, "a"), Token(SyntacticSymbol.$, null)
   val production__vector = Vector[Production](
     SyntacticSymbol.Starter -> Vector(SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT),

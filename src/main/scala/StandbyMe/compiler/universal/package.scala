@@ -27,7 +27,7 @@ package object universal {
   trait ExprNode extends Node
 
   case class BinaryOpNode(value: String, left: ExprNode, right: ExprNode) extends ExprNode {
-    override def toString: String = s"($value $left $right)"
+    override def toString: String = s"$left $value $right"
   }
 
   case class IDNode(name: String) extends ExprNode {
@@ -35,11 +35,11 @@ package object universal {
   }
 
   case class AssignNode(left: IDNode, right: ExprNode) extends ExprNode {
-    override def toString: String = s"($left = $right)"
+    override def toString: String = s"$left = $right"
   }
 
   case class IFNode(condition: ExprNode, thenExpr: ExprNode, elseExpr: ExprNode) extends ExprNode {
-    override def toString: String = s"if($condition) then $thenExpr else $elseExpr"
+    override def toString: String = s"if($condition)\n{\n$thenExpr\n} else { \n$elseExpr\n}"
   }
 
   case class CallNode(func: IDNode, para: ExprNode)

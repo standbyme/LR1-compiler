@@ -20,8 +20,8 @@ object Matcher {
     case '+' :: rest_char__list => Some(((PLUS, null), rest_char__list))
     case '-' :: rest_char__list => Some(((MINUS, null), rest_char__list))
     case '*' :: rest_char__list => Some(((MULTI, null), rest_char__list))
-    case '=' :: '=' :: rest_char__list => Some(((ASSIGN, null), rest_char__list))
-    case '=' :: rest_char__list => Some(((EQ, null), rest_char__list))
+    case '=' :: '=' :: rest_char__list => Some(((EQ, null), rest_char__list))
+    case '=' :: rest_char__list => Some(((ASSIGN, null), rest_char__list))
     case _ => None
   }
 

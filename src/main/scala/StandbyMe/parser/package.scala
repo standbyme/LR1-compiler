@@ -149,6 +149,7 @@ package object parser {
   def reduce(production: Production, right: Vector[Node]): Node = {
     production match {
       case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => InitNode("int", right(3).asInstanceOf[BasicNode], right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("+", right(0).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID)) => IDNode(right(0).asInstanceOf[BasicNode].value)

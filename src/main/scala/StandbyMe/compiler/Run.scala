@@ -8,6 +8,7 @@ object Run extends App {
   val production__vector = Vector[Production](
     SyntacticSymbol.STARTER -> Vector(SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT),
+    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID),
@@ -22,7 +23,7 @@ object Run extends App {
   goto.foreach(println)
   println("------")
 
-  val code: Array[String] = Array("if(sum==1) {b=12;} else {b=16;}")
+  val code: Array[String] = Array("int sum = 0;", "if(sum==1) {b=12;} else {b=16;}")
   code.foreach(code => {
     val result = Lexer(code).toVector
     result.foreach(println)

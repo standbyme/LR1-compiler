@@ -10,6 +10,7 @@ object Matcher {
 
   def keyword_matcher(char__list: List[Char]): MatchResult = char__list match {
     case 'i' :: 'f' :: rest_char__list => Some(((IF, null), rest_char__list))
+    case 'i' :: 'n' :: 't' :: rest_char__list => Some(((INT_KEYWORD, null), rest_char__list))
     case 'e' :: 'l' :: 's' :: 'e' :: rest_char__list => Some(((ELSE, null), rest_char__list))
     case _ => None
   }

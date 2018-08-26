@@ -28,6 +28,8 @@ object Matcher {
   def separator_matcher(char__list: List[Char]): MatchResult = char__list match {
     case '(' :: rest_char__list => Some(((LR_BRAC, null), rest_char__list))
     case ')' :: rest_char__list => Some(((RR_BRAC, null), rest_char__list))
+    case '{' :: rest_char__list => Some(((L_BRAC, null), rest_char__list))
+    case '}' :: rest_char__list => Some(((R_BRAC, null), rest_char__list))
     case ';' :: rest_char__list => Some(((SEMIC, null), rest_char__list))
     case _ => None
   }

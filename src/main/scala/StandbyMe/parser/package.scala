@@ -152,9 +152,9 @@ package object parser {
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("+", right(0).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID)) => IDNode(right(0).asInstanceOf[BasicNode].value)
-      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION)) => AssignNode(IDNode(right(2).asInstanceOf[BasicNode].value), right(0).asInstanceOf[ExprNode])
-      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.IF, SyntacticSymbol.EXPRESSION, SyntacticSymbol.EXPRESSION, SyntacticSymbol.ELSE, SyntacticSymbol.EXPRESSION)) =>
-        IFNode(right(3).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => AssignNode(IDNode(right(3).asInstanceOf[BasicNode].value), right(1).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.IF, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC, SyntacticSymbol.ELSE, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC)) =>
+        IFNode(right(8).asInstanceOf[ExprNode], right(5).asInstanceOf[ExprNode], right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.EQ, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("==", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
     }
   }

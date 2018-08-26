@@ -11,11 +11,11 @@ package object universal {
     val INT, ID, PLUS, MINUS, MULTI = Value
     val EXPRESSION = Value
     val GE, GT, EQ = Value
-    val LR_BRAC, RR_BRAC, SEMIC = Value
+    val LR_BRAC, RR_BRAC, L_BRAC, R_BRAC, SEMIC = Value
 
     def isNonTerminal: SyntacticSymbol => Boolean = Set(EXPRESSION, STARTER, S, A, B, C, D, E, F, M, N, T).contains
 
-    def isTerminal: SyntacticSymbol => Boolean = Set(GE, GT, EQ, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, $).contains
+    def isTerminal: SyntacticSymbol => Boolean = Set(GE, GT, EQ, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, L_BRAC, R_BRAC, $).contains
 
     val V: Set[Value] = values.filter(isNonTerminal)
   }

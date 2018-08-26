@@ -5,10 +5,6 @@ import StandbyMe.parser.{Production, Table, compute_Table, LR}
 import StandbyMe.lexer.Lexer
 
 object Run extends App {
-  val code: String = "if(sum==1) {b=12;} else {b=16;}"
-  val result = Lexer(code).toVector
-  result.foreach(println)
-  val init_buffer: Vector[Token] = result ++ Vector((SyntacticSymbol.$, null))
   val production__vector = Vector[Production](
     SyntacticSymbol.STARTER -> Vector(SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT),
@@ -25,9 +21,17 @@ object Run extends App {
   println("Goto")
   goto.foreach(println)
   println("------")
-  val init_status_stack = Vector(init_state)
-  val init_node_stack = Vector[Node](BasicNode(""))
 
-  val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
-  println(node)
+  val code: Array[String] = Array("if(sum==1) {b=12;} else {b=16;}")
+  code.foreach(code => {
+    val result = Lexer(code).toVector
+    result.foreach(println)
+    val init_buffer: Vector[Token] = result ++ Vector((SyntacticSymbol.$, null))
+
+    val init_status_stack = Vector(init_state)
+    val init_node_stack = Vector[Node](BasicNode(""))
+
+    val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
+    println(node)
+  })
 }

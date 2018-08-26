@@ -9,10 +9,15 @@ object Run extends App {
     SyntacticSymbol.STARTER -> Vector(SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
+    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.FOR_KEYWORD, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
+
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.EQ, SyntacticSymbol.EXPRESSION),
+    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.LE, SyntacticSymbol.EXPRESSION),
+    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID, SyntacticSymbol.PLUSPLUS),
+    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID, SyntacticSymbol.PLUSASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.IF, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC, SyntacticSymbol.ELSE, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC)
   )
 
@@ -23,7 +28,7 @@ object Run extends App {
   goto.foreach(println)
   println("------")
 
-  val code: Array[String] = Array("int sum = 0;", "if(sum==1) {b=12;} else {b=16;}")
+  val code: Array[String] = Array("int sum = 0;", "if(sum==1) {b=12;} else {b=16;}", "for (int i = 1; i <= 100; i++) { sum += i; }")
   code.foreach(code => {
     val result = Lexer(code).toVector
     result.foreach(println)

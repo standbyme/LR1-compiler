@@ -1,6 +1,6 @@
 package StandbyMe
 
-import StandbyMe.compiler.universal._
+import StandbyMe.compiler.universal.{ExprNode, _}
 import StandbyMe.compiler.universal.SyntacticSymbol.{SyntacticSymbol, isNonTerminal, isTerminal}
 
 import scala.annotation.tailrec
@@ -150,13 +150,23 @@ package object parser {
     production match {
       case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => InitNode("int", right(3).asInstanceOf[BasicNode], right(1).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.FOR_KEYWORD, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC)) => FORNode(right(7).asInstanceOf[ExprNode], right(6).asInstanceOf[ExprNode], right(4).asInstanceOf[ExprNode], right(1).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.LE, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("<=", right(0).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("+", right(0).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.PLUSPLUS)) => UnaryOpNode("++", right(1).asInstanceOf[BasicNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.PLUSASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => {
+        BinaryOpNode("+=", IDNode(right(3).asInstanceOf[BasicNode].value), right(1).asInstanceOf[ExprNode])
+      }
+
+
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID)) => IDNode(right(0).asInstanceOf[BasicNode].value)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => AssignNode(IDNode(right(3).asInstanceOf[BasicNode].value), right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.IF, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC, SyntacticSymbol.ELSE, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC)) =>
         IFNode(right(8).asInstanceOf[ExprNode], right(5).asInstanceOf[ExprNode], right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.EQ, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("==", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
+
     }
   }
 
@@ -184,8 +194,11 @@ package object parser {
           println("Accept")
           (node_stack(0), buffer)
       }
-      case None =>
+      case None => {
+        println((S, a._1))
         throw new Exception("Error")
+      }
+
     }
   }
 

@@ -5,7 +5,7 @@ package object universal {
   object SyntacticSymbol extends Enumeration {
     type SyntacticSymbol = Value
 
-    val Starter, S, A, B, C, D, E, F, M, N, T = Value
+    val STARTER, S, A, B, C, D, E, F, M, N, T = Value
     val a, b, c, d, e, ASSIGN, IF, ELSE, $ = Value
 
     val INT, ID, PLUS, MINUS, MULTI = Value
@@ -13,7 +13,7 @@ package object universal {
     val GE, GT, EQ = Value
     val LR_BRAC, RR_BRAC, SEMIC = Value
 
-    def isNonTerminal: SyntacticSymbol => Boolean = Set(EXPRESSION, Starter, S, A, B, C, D, E, F, M, N, T).contains
+    def isNonTerminal: SyntacticSymbol => Boolean = Set(EXPRESSION, STARTER, S, A, B, C, D, E, F, M, N, T).contains
 
     def isTerminal: SyntacticSymbol => Boolean = Set(GE, GT, EQ, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, $).contains
 

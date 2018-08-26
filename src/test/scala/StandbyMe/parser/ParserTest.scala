@@ -5,7 +5,7 @@ import org.scalatest.FunSuite
 
 class ParserTest extends FunSuite {
   test("Resolve") {
-    assert(resolve((Starter, Vector(), Vector(S), $)) === Some(MatchResult(Starter, Vector(), S, Vector(), $)))
+    assert(resolve((STARTER, Vector(), Vector(S), $)) === Some(MatchResult(STARTER, Vector(), S, Vector(), $)))
     assert(resolve((S, Vector(), Vector(C, C), $)) === Some(MatchResult(S, Vector(), C, Vector(C), $)))
     assert(resolve((C, Vector(), Vector(c, C), c)).isEmpty)
     assert(resolve((C, Vector(), Vector(d), c)).isEmpty)
@@ -38,15 +38,15 @@ class ParserTest extends FunSuite {
 
   test("items") {
     val productionSet = Set(
-      Starter -> Vector(EXPRESSION),
+      STARTER -> Vector(EXPRESSION),
       EXPRESSION -> Vector(C, C),
       C -> Vector(c, C),
       C -> Vector(d)
     )
     val result = items(productionSet)
     val expected = Set(
-      Set((C, Vector(), Vector(d), d), (C, Vector(), Vector(d), c), (EXPRESSION, Vector(), Vector(C, C), $), (C, Vector(), Vector(c, C), d), (C, Vector(), Vector(c, C), c), (Starter, Vector(), Vector(EXPRESSION), $)), // 0
-      Set((Starter, Vector(EXPRESSION), Vector(), $)), // 1
+      Set((C, Vector(), Vector(d), d), (C, Vector(), Vector(d), c), (EXPRESSION, Vector(), Vector(C, C), $), (C, Vector(), Vector(c, C), d), (C, Vector(), Vector(c, C), c), (STARTER, Vector(), Vector(EXPRESSION), $)), // 0
+      Set((STARTER, Vector(EXPRESSION), Vector(), $)), // 1
       Set((EXPRESSION, Vector(C), Vector(C), $), (C, Vector(), Vector(c, C), $), (C, Vector(), Vector(d), $)), // 2
       Set((C, Vector(), Vector(d), d), (C, Vector(), Vector(d), c), (C, Vector(), Vector(c, C), d), (C, Vector(), Vector(c, C), c), (C, Vector(c), Vector(C), c), (C, Vector(c), Vector(C), d)), // 3
       Set((C, Vector(d), Vector(), d), (C, Vector(d), Vector(), c)), // 4

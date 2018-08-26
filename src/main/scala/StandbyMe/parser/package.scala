@@ -104,7 +104,7 @@ package object parser {
       }
     }
 
-    val item = (SyntacticSymbol.Starter, Vector(), Vector(SyntacticSymbol.EXPRESSION), SyntacticSymbol.$)
+    val item = (SyntacticSymbol.STARTER, Vector(), Vector(SyntacticSymbol.EXPRESSION), SyntacticSymbol.$)
     val C = Set(CLOSURE(item))
     helper(C)(Set())
   }
@@ -115,7 +115,7 @@ package object parser {
     val canonicalCollection: Vector[Closure] = items(productionSet).toVector
     val closure_index_map = canonicalCollection.zipWithIndex.toMap
     val CLOSURE = new ClosureUtil(productionSet)
-    val init_state = closure_index_map(CLOSURE((SyntacticSymbol.Starter, Vector(), Vector(SyntacticSymbol.EXPRESSION), SyntacticSymbol.$)))
+    val init_state = closure_index_map(CLOSURE((SyntacticSymbol.STARTER, Vector(), Vector(SyntacticSymbol.EXPRESSION), SyntacticSymbol.$)))
     val GOTO: (ItemSet, SS) => ItemSet = GotoUtil(CLOSURE)
     val init_action = Map[(State, SS), Action.Action]()
     val init_goto = Map[(State, SS), State]()
@@ -127,7 +127,7 @@ package object parser {
 
       def inner(action: Map[(State, SS), Action.Action], item: Item): Map[(State, SS), Action.Action] = {
         item match {
-          case (SyntacticSymbol.Starter, Vector(SyntacticSymbol.EXPRESSION), Vector(), SyntacticSymbol.$) => action + ((k, SyntacticSymbol.$) -> Action.acc())
+          case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION), Vector(), SyntacticSymbol.$) => action + ((k, SyntacticSymbol.$) -> Action.acc())
           case (aA, α, a +: β, b) if isTerminal(a) =>
             val j = closure_index_map(GOTO(I, a))
             action + ((k, a) -> Action.S(j))
@@ -148,7 +148,7 @@ package object parser {
 
   def reduce(production: Production, right: Vector[Node]): Node = {
     production match {
-      case (SyntacticSymbol.Starter, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]
+      case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION)) => BinaryOpNode("+", right(0).asInstanceOf[ExprNode], right(2).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID)) => IDNode(right(0).asInstanceOf[BasicNode].value)

@@ -10,7 +10,7 @@ object Run extends App {
   result.foreach(println)
   val init_buffer: Vector[Token] = result ++ Vector((SyntacticSymbol.$, null))
   val production__vector = Vector[Production](
-    SyntacticSymbol.Starter -> Vector(SyntacticSymbol.EXPRESSION),
+    SyntacticSymbol.STARTER -> Vector(SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION),
     SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION),

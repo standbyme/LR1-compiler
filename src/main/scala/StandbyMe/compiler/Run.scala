@@ -3,6 +3,7 @@ package StandbyMe.compiler
 import StandbyMe.compiler.universal.{BasicNode, Node, SyntacticSymbol, Token}
 import StandbyMe.parser.{Production, Table, compute_Table, LR}
 import StandbyMe.lexer.Lexer
+import scala.io.Source
 
 object Run extends App {
   val production__vector = Vector[Production](
@@ -28,7 +29,7 @@ object Run extends App {
   goto.foreach(println)
   println("------")
 
-  val code: Array[String] = Array("int sum = 0;", "if(sum==1) {b=12;} else {b=16;}", "for (int i = 1; i <= 100; i++) { sum += i; }")
+  val code: Array[String] = Source.fromFile("data").getLines.toArray
   code.foreach(code => {
     val result = Lexer(code).toVector
     result.foreach(println)

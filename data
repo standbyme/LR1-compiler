@@ -2,11 +2,14 @@ function main() {
     7;
      6;
          println(8);
+                  println(8);
+                           println(222);
 
 }
 
 function main() {
     2;
+                               println(444);
 }
 
 function main() {

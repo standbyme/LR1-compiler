@@ -51,6 +51,7 @@ object Run extends App {
   val init_node_stack = Vector[Node](BasicNode(""))
 
   val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
-  println(node)
+  println("---Execute Output---")
+  node.exec()
 
 }

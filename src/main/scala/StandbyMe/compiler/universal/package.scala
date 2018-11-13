@@ -9,11 +9,11 @@ package object universal {
     val a, b, c, d, e, ASSIGN, IF, ELSE, $ = Value
 
     val INT, INT_KEYWORD, FUNCTION_KEYWORD, FOR_KEYWORD, ID, PLUS, PLUSPLUS, PLUSASSIGN, MINUS, MULTI = Value
-    val EXPRESSION, FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK = Value
+    val EXPRESSION, FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK, FUNCTION_CALL = Value
     val LE, GE, GT, EQ = Value
     val LR_BRAC, RR_BRAC, L_BRAC, R_BRAC, SEMIC, COMMA = Value
 
-    def isNonTerminal: SyntacticSymbol => Boolean = Set(FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK, EXPRESSION, STARTER, S, A, B, C, D, E, F, M, N, T).contains
+    def isNonTerminal: SyntacticSymbol => Boolean = Set(FUNCTION_CALL, FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK, EXPRESSION, STARTER, S, A, B, C, D, E, F, M, N, T).contains
 
     def isTerminal: SyntacticSymbol => Boolean = Set(FOR_KEYWORD, FUNCTION_KEYWORD, INT_KEYWORD, LE, GE, GT, EQ, PLUSASSIGN, PLUSPLUS, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, L_BRAC, R_BRAC, $).contains
 
@@ -66,12 +66,20 @@ package object universal {
     override def toString: String = value.toString
   }
 
+  case class FunctionCallResultNode(functionCallNode: FunctionCallNode) extends ExprNode {
+    override def toString: String = functionCallNode.toString
+  }
+
   case class BlockNode(statementsNode: StatementsNode) extends Node {
     override def toString: String = s"{$statementsNode}"
   }
 
   case class FunctionNode(blockNode: BlockNode) extends Node {
     override def toString: String = blockNode.toString
+  }
+
+  case class FunctionCallNode(idNode: IDNode, parameterOpt: Option[ExprNode]) extends Node {
+    override def toString: String = idNode.toString
   }
 
   case class FunctionsNode(functionNode: FunctionNode, otherNodeOpt: Option[FunctionsNode]) extends Node {

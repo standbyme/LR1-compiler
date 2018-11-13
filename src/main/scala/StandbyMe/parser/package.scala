@@ -2,6 +2,7 @@ package StandbyMe
 
 import StandbyMe.compiler.universal.{ExprNode, _}
 import StandbyMe.compiler.universal.SyntacticSymbol.{SyntacticSymbol, isNonTerminal, isTerminal}
+import jdk.nashorn.internal.ir.FunctionCall
 
 import scala.annotation.tailrec
 import scala.collection.immutable.HashMap
@@ -156,6 +157,8 @@ package object parser {
       case (SyntacticSymbol.FUNCTION, Vector(SyntacticSymbol.FUNCTION_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC, SyntacticSymbol.BLOCK)) => FunctionNode(right(0).asInstanceOf[BlockNode])
       case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION)) => FunctionsNode(right(0).asInstanceOf[FunctionNode],None)
       case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION, SyntacticSymbol.FUNCTIONS)) => FunctionsNode(right(1).asInstanceOf[FunctionNode],Some(right(0).asInstanceOf[FunctionsNode]))
+      case (SyntacticSymbol.FUNCTION_CALL, Vector(SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC)) => FunctionCallNode(IDNode(right(3).asInstanceOf[BasicNode].value),Some(right(1).asInstanceOf[ExprNode]))
+      case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.FUNCTION_CALL)) => FunctionCallResultNode(right(0).asInstanceOf[FunctionCallNode])
 
 
       //      case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]

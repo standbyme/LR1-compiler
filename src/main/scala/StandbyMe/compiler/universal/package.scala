@@ -74,7 +74,7 @@ package object universal {
     override def toString: String = blockNode.toString
   }
 
-  case class FunctionsNode(functionNode: FunctionNode,otherNodeOpt:Option[FunctionsNode]) extends Node {
+  case class FunctionsNode(functionNode: FunctionNode, otherNodeOpt: Option[FunctionsNode]) extends Node {
     override def toString: String = otherNodeOpt match {
       case Some(otherNode) => s"$functionNode $otherNode"
       case None => s"$functionNode"
@@ -85,7 +85,7 @@ package object universal {
     override def toString: String = exprNode.toString
   }
 
-  case class StatementsNode(statementNode: StatementNode,otherNodeOpt:Option[StatementsNode]) extends Node {
+  case class StatementsNode(statementNode: StatementNode, otherNodeOpt: Option[StatementsNode]) extends Node {
     override def toString: String = otherNodeOpt match {
       case Some(otherNode) => s"$statementNode $otherNode"
       case None => s"$statementNode"

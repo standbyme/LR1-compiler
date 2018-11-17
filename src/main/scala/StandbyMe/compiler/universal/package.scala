@@ -93,8 +93,8 @@ package object universal {
     def exec() = statementsNode.exec()
   }
 
-  case class FunctionNode(blockNode: BlockNode) extends Node {
-    override def toString: String = blockNode.toString
+  case class FunctionNode(idNode: IDNode, blockNode: BlockNode) extends Node {
+    override def toString: String = s"(call function $idNode ($blockNode))"
 
     def exec() = blockNode.exec()
   }

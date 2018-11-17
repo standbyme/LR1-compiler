@@ -52,6 +52,6 @@ object Run extends App {
 
   val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
   println("---Execute Output---")
-  node.exec()
+  print(node)
 
 }

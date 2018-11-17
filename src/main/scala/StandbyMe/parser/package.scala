@@ -151,13 +151,13 @@ package object parser {
     production match {
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.INT)) => IntegerLiteralNode(right(0).asInstanceOf[BasicNode].value.toInt)
       case (SyntacticSymbol.STATEMENT, Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC)) => StatementNode(right(1).asInstanceOf[ExprNode])
-      case (SyntacticSymbol.STATEMENTS, Vector(SyntacticSymbol.STATEMENT)) => StatementsNode(right(0).asInstanceOf[StatementNode],None)
-      case (SyntacticSymbol.STATEMENTS, Vector(SyntacticSymbol.STATEMENT, SyntacticSymbol.STATEMENTS)) => StatementsNode(right(1).asInstanceOf[StatementNode],Some(right(0).asInstanceOf[StatementsNode]))
-      case (SyntacticSymbol.BLOCK, Vector(SyntacticSymbol.L_BRAC,SyntacticSymbol.STATEMENTS,SyntacticSymbol.R_BRAC)) => BlockNode(right(1).asInstanceOf[StatementsNode])
-      case (SyntacticSymbol.FUNCTION, Vector(SyntacticSymbol.FUNCTION_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC, SyntacticSymbol.BLOCK)) => FunctionNode(right(0).asInstanceOf[BlockNode])
-      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION)) => FunctionsNode(right(0).asInstanceOf[FunctionNode],None)
-      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION, SyntacticSymbol.FUNCTIONS)) => FunctionsNode(right(1).asInstanceOf[FunctionNode],Some(right(0).asInstanceOf[FunctionsNode]))
-      case (SyntacticSymbol.FUNCTION_CALL, Vector(SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC)) => FunctionCallNode(IDNode(right(3).asInstanceOf[BasicNode].value),Some(right(1).asInstanceOf[ExprNode]))
+      case (SyntacticSymbol.STATEMENTS, Vector(SyntacticSymbol.STATEMENT)) => StatementsNode(right(0).asInstanceOf[StatementNode], None)
+      case (SyntacticSymbol.STATEMENTS, Vector(SyntacticSymbol.STATEMENT, SyntacticSymbol.STATEMENTS)) => StatementsNode(right(1).asInstanceOf[StatementNode], Some(right(0).asInstanceOf[StatementsNode]))
+      case (SyntacticSymbol.BLOCK, Vector(SyntacticSymbol.L_BRAC, SyntacticSymbol.STATEMENTS, SyntacticSymbol.R_BRAC)) => BlockNode(right(1).asInstanceOf[StatementsNode])
+      case (SyntacticSymbol.FUNCTION, Vector(SyntacticSymbol.FUNCTION_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC, SyntacticSymbol.BLOCK)) => FunctionNode(IDNode(right(3).asInstanceOf[BasicNode].value), right(0).asInstanceOf[BlockNode])
+      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION)) => FunctionsNode(right(0).asInstanceOf[FunctionNode], None)
+      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION, SyntacticSymbol.FUNCTIONS)) => FunctionsNode(right(1).asInstanceOf[FunctionNode], Some(right(0).asInstanceOf[FunctionsNode]))
+      case (SyntacticSymbol.FUNCTION_CALL, Vector(SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC)) => FunctionCallNode(IDNode(right(3).asInstanceOf[BasicNode].value), Some(right(1).asInstanceOf[ExprNode]))
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.FUNCTION_CALL)) => FunctionCallResultNode(right(0).asInstanceOf[FunctionCallNode])
 
 

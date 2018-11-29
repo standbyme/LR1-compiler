@@ -8,14 +8,14 @@ package object universal {
     val STARTER, S, A, B, C, D, E, F, M, N, T = Value
     val a, b, c, d, e, ASSIGN, IF, ELSE, $ = Value
 
-    val INT, INT_KEYWORD, FUNCTION_KEYWORD, FOR_KEYWORD, ID, PLUS, PLUSPLUS, PLUSASSIGN, MINUS, MULTI = Value
+    val PRINTLN, INT, INT_KEYWORD, FUNCTION_KEYWORD, FOR_KEYWORD, ID, PLUS, PLUSPLUS, PLUSASSIGN, MINUS, MULTI = Value
     val EXPRESSION, FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK, FUNCTION_CALL = Value
     val LE, GE, GT, EQ = Value
     val LR_BRAC, RR_BRAC, L_BRAC, R_BRAC, SEMIC, COMMA = Value
 
     def isNonTerminal: SyntacticSymbol => Boolean = Set(FUNCTION_CALL, FUNCTION, FUNCTIONS, STATEMENT, STATEMENTS, BLOCK, EXPRESSION, STARTER, S, A, B, C, D, E, F, M, N, T).contains
 
-    def isTerminal: SyntacticSymbol => Boolean = Set(FOR_KEYWORD, FUNCTION_KEYWORD, INT_KEYWORD, LE, GE, GT, EQ, PLUSASSIGN, PLUSPLUS, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, L_BRAC, R_BRAC, $).contains
+    def isTerminal: SyntacticSymbol => Boolean = Set(PRINTLN, FOR_KEYWORD, FUNCTION_KEYWORD, INT_KEYWORD, LE, GE, GT, EQ, PLUSASSIGN, PLUSPLUS, ASSIGN, IF, ELSE, PLUS, MINUS, MULTI, INT, ID, a, b, c, d, e, LR_BRAC, RR_BRAC, SEMIC, L_BRAC, R_BRAC, $).contains
 
     val V: Set[Value] = values.filter(isNonTerminal)
   }
@@ -42,6 +42,11 @@ package object universal {
     def exec() = Unit
   }
 
+  case class PrintlnNode(value:ExprNode) extends ExprNode {
+    override def toString: String = s"println $value"
+
+    def exec() = println(value.exec())
+  }
   case class AssignNode(left: IDNode, right: ExprNode) extends ExprNode {
     override def toString: String = s"$left = $right"
 
@@ -99,13 +104,10 @@ package object universal {
     def exec() = blockNode.exec()
   }
 
-  case class FunctionCallNode(idNode: IDNode, parameterOpt: Option[ExprNode]) extends Node {
+  case class FunctionCallNode(idNode: IDNode) extends Node {
     override def toString: String = idNode.toString
 
     def exec() = {
-      idNode match {
-        case IDNode("println") => println(parameterOpt.get.exec())
-      }
     }
   }
 

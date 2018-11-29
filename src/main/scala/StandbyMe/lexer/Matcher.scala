@@ -9,8 +9,9 @@ object Matcher {
   type MatchResult = Option[(Token, List[Char])]
 
   def keyword_matcher(char__list: List[Char]): MatchResult = char__list match {
+    case 'p' :: 'r' :: 'i' :: 'n' :: 't' ::'l' :: 'n':: rest_char__list => Some(((PRINTLN, null), rest_char__list))
     case 'i' :: 'f' :: rest_char__list => Some(((IF, null), rest_char__list))
-    case 'f' :: 'u':: 'n':: 'c':: 't':: 'i':: 'o':: 'n' :: rest_char__list => Some(((FUNCTION_KEYWORD, null), rest_char__list))
+    case 'f' :: 'u' :: 'n' :: 'c' :: 't' :: 'i' :: 'o' :: 'n' :: rest_char__list => Some(((FUNCTION_KEYWORD, null), rest_char__list))
     case 'f' :: 'o' :: 'r' :: rest_char__list => Some(((FOR_KEYWORD, null), rest_char__list))
     case 'i' :: 'n' :: 't' :: rest_char__list => Some(((INT_KEYWORD, null), rest_char__list))
     case 'e' :: 'l' :: 's' :: 'e' :: rest_char__list => Some(((ELSE, null), rest_char__list))

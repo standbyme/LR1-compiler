@@ -23,7 +23,7 @@ package object universal {
   type Token = (SyntacticSymbol.SyntacticSymbol, String)
 
   trait Node {
-    def exec(): Any
+    def exec(env: Env): ExecResult
   }
 
   trait ExprNode extends Node
@@ -39,37 +39,41 @@ package object universal {
   case class IDNode(name: String) extends ExprNode {
     override def toString: String = name
 
-    def exec() = Unit
+    override def exec(env: Env): ExecResult = ExecResult(env.get(name).get.asInstanceOf[ExprNode], env)
   }
 
-  case class PrintlnNode(value:ExprNode) extends ExprNode {
+  case class PrintlnNode(value: ExprNode) extends ExprNode {
     override def toString: String = s"println $value"
 
-    def exec() = println(value.exec())
-  }
-  case class AssignNode(left: IDNode, right: ExprNode) extends ExprNode {
-    override def toString: String = s"$left = $right"
-
-    def exec() = Unit
+    override def exec(env: Env): ExecResult = {
+      println(value.exec(env))
+      ExecResult(IntegerLiteralNode(0), env)
+    }
   }
 
-  case class InitNode(TYPE: String, left: BasicNode, right: ExprNode) extends ExprNode {
-    override def toString: String = s"$left init to $TYPE type and assigned value $right"
+  //  case class AssignNode(left: IDNode, right: ExprNode) extends ExprNode {
+  //    override def toString: String = s"$left = $right"
+  //
+  //    def exec() = Unit
+  //  }
 
-    def exec() = Unit
-  }
+  //  case class InitNode(TYPE: String, left: BasicNode, right: ExprNode) extends ExprNode {
+  //    override def toString: String = s"$left init to $TYPE type and assigned value $right"
+  //
+  //    def exec() = Unit
+  //  }
+  //
+  //  case class IFNode(condition: ExprNode, thenExpr: ExprNode, elseExpr: ExprNode) extends ExprNode {
+  //    override def toString: String = s"if($condition)\n{\n$thenExpr\n} else { \n$elseExpr\n}"
+  //
+  //    def exec() = Unit
+  //  }
 
-  case class IFNode(condition: ExprNode, thenExpr: ExprNode, elseExpr: ExprNode) extends ExprNode {
-    override def toString: String = s"if($condition)\n{\n$thenExpr\n} else { \n$elseExpr\n}"
-
-    def exec() = Unit
-  }
-
-  case class FORNode(init: ExprNode, condition: ExprNode, action: ExprNode, thenExpr: ExprNode) extends ExprNode {
-    override def toString: String = s"for($init ; $condition ; $action)\n{\n$thenExpr\n}"
-
-    def exec() = Unit
-  }
+  //  case class FORNode(init: ExprNode, condition: ExprNode, action: ExprNode, thenExpr: ExprNode) extends ExprNode {
+  //    override def toString: String = s"for($init ; $condition ; $action)\n{\n$thenExpr\n}"
+  //
+  //    def exec() = Unit
+  //  }
 
 
   trait LiteralNode extends ExprNode
@@ -77,38 +81,28 @@ package object universal {
   case class IntegerLiteralNode(value: Int) extends LiteralNode {
     override def toString: String = value.toString
 
-    def exec() = value
+    override def exec(env: Env): ExecResult = ExecResult(this, env)
   }
 
   case class BasicNode(value: String) extends Node {
     override def toString: String = value.toString
 
-    def exec() = Unit
+    override def exec(env: Env): ExecResult = throw new Exception("BasicNode can't exec")
   }
 
-  case class FunctionCallResultNode(functionCallNode: FunctionCallNode) extends ExprNode {
-    override def toString: String = functionCallNode.toString
+  case class FunctionNode(idNode: IDNode, statementsNode: StatementsNode) extends Node {
+    override def toString: String = s"(call function $idNode ($statementsNode))"
 
-    def exec() = functionCallNode.exec()
+    override def exec(env: Env): ExecResult = statementsNode.exec(env)
+
+    //    def exec() = statementsNode.exec()
   }
 
-  case class BlockNode(statementsNode: StatementsNode) extends Node {
-    override def toString: String = s"{$statementsNode}"
+  case class FunctionCallNode(name: String) extends ExprNode {
+    override def toString: String = name
 
-    def exec() = statementsNode.exec()
-  }
+    override def exec(env: Env): ExecResult = env.get(name).get.asInstanceOf[FunctionNode].exec(env)
 
-  case class FunctionNode(idNode: IDNode, blockNode: BlockNode) extends Node {
-    override def toString: String = s"(call function $idNode ($blockNode))"
-
-    def exec() = blockNode.exec()
-  }
-
-  case class FunctionCallNode(idNode: IDNode) extends Node {
-    override def toString: String = idNode.toString
-
-    def exec() = {
-    }
   }
 
   case class FunctionsNode(functionNode: FunctionNode, otherNodeOpt: Option[FunctionsNode]) extends Node {
@@ -117,20 +111,17 @@ package object universal {
       case None => s"$functionNode"
     }
 
-    def exec() = {
-      functionNode.exec()
-      otherNodeOpt match {
-        case Some(otherNode) => otherNode.exec()
-        case None => {}
-      }
+    override def exec(env: Env): ExecResult = null
+
+    def toTable: Map[String, Node] = {
+      null
     }
   }
 
   case class StatementNode(exprNode: ExprNode) extends Node {
     override def toString: String = exprNode.toString
 
-    def exec() = exprNode.exec()
-
+    override def exec(env: Env): ExecResult = exprNode.exec(env)
   }
 
   case class StatementsNode(statementNode: StatementNode, otherNodeOpt: Option[StatementsNode]) extends Node {
@@ -139,14 +130,13 @@ package object universal {
       case None => s"$statementNode"
     }
 
-    def exec() = {
-      statementNode.exec()
+    override def exec(env: Env): ExecResult = {
+      val execResult = statementNode.exec(env)
       otherNodeOpt match {
-        case Some(otherNode) => otherNode.exec()
-        case None => {}
+        case Some(otherNode) => otherNode.exec(execResult.env)
+        case None => execResult
       }
     }
-
   }
 
 }

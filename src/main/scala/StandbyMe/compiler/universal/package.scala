@@ -46,7 +46,7 @@ package object universal {
     override def toString: String = s"println $value"
 
     override def exec(env: Env): ExecResult = {
-      println(value.exec(env))
+      println(value.exec(env).value)
       ExecResult(IntegerLiteralNode(0), env)
     }
   }
@@ -91,7 +91,7 @@ package object universal {
   }
 
   case class FunctionNode(name: String, statementsNode: StatementsNode) extends Node {
-    override def toString: String = s"(call function $name ($statementsNode))"
+    override def toString: String = s"(def function $name ($statementsNode))"
 
     override def exec(env: Env): ExecResult = statementsNode.exec(env)
 

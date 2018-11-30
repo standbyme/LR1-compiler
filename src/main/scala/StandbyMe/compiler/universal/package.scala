@@ -75,9 +75,12 @@ package object universal {
 
     override def exec(env: Env): ExecResult = {
       if (condition.exec(env).value.asInstanceOf[IntegerLiteralNode].value != 0) {
-        thenStatements.exec(env)
+        val execResult = thenStatements.exec(Env(Some(env), Map[String, Node]()))
+        ExecResult(execResult.value, execResult.env.up.get)
       } else {
-        elseStatements.exec(env)
+        val execResult = elseStatements.exec(Env(Some(env), Map[String, Node]()))
+        ExecResult(execResult.value, execResult.env.up.get)
+
       }
     }
   }

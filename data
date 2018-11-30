@@ -6,16 +6,22 @@ function assign() {
     if(a){
         println(a);
     }else{
-        println(0);
+        println(233);
     };
 
-        a = 0;
+    a = 0;
+    b = 4;
+    println(b);
 
-        if(a){
-            println(a);
-        }else{
-            println(0);
-        };
+    if(a){
+        println(a);
+    }else{
+        b = 5;
+        println(b);
+        println(233);
+    };
+
+    println(b);
 }
 
 function plus() {

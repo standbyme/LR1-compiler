@@ -1,7 +1,12 @@
-function go() {
-    println(3+2);
+function plus() {
+    println(3+3);
+}
+
+function minus() {
+    println(6-100);
 }
 
 function main() {
-    go();
+    plus();
+    minus();
 }

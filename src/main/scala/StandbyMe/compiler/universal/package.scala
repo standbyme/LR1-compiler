@@ -33,6 +33,7 @@ package object universal {
 
     override def exec(env: Env): ExecResult = value match {
       case "+" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value + right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
+      case "-" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value - right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
     }
   }
 

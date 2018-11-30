@@ -160,6 +160,7 @@ package object parser {
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.PRINTLN, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC)) => PrintlnNode(right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC)) => FunctionCallNode(right(2).asInstanceOf[BasicNode].value)
       case (EXPRESSION, Vector(EXPRESSION, PLUS, EXPRESSION)) => BinaryOpNode("+", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
+      case (EXPRESSION, Vector(EXPRESSION, MINUS, EXPRESSION)) => BinaryOpNode("-", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
 
 
       //      case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]

@@ -70,11 +70,17 @@ package object universal {
   //    def exec() = Unit
   //  }
   //
-  //  case class IFNode(condition: ExprNode, thenExpr: ExprNode, elseExpr: ExprNode) extends ExprNode {
-  //    override def toString: String = s"if($condition)\n{\n$thenExpr\n} else { \n$elseExpr\n}"
-  //
-  //    def exec() = Unit
-  //  }
+  case class IFNode(condition: ExprNode, thenStatements: StatementsNode, elseStatements: StatementsNode) extends ExprNode {
+    override def toString: String = s"if($condition)\n{\n$thenStatements\n} else { \n$elseStatements\n}"
+
+    override def exec(env: Env): ExecResult = {
+      if (condition.exec(env).value.asInstanceOf[IntegerLiteralNode].value != 0) {
+        thenStatements.exec(env)
+      } else {
+        elseStatements.exec(env)
+      }
+    }
+  }
 
   //  case class FORNode(init: ExprNode, condition: ExprNode, action: ExprNode, thenExpr: ExprNode) extends ExprNode {
   //    override def toString: String = s"for($init ; $condition ; $action)\n{\n$thenExpr\n}"

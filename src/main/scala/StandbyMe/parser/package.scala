@@ -3,6 +3,7 @@ package StandbyMe
 import StandbyMe.compiler.universal.{ExprNode, _}
 import StandbyMe.compiler.universal.SyntacticSymbol.{SyntacticSymbol, isNonTerminal, isTerminal}
 import StandbyMe.compiler.universal.SyntacticSymbol._
+import jdk.nashorn.internal.ir.IfNode
 
 import scala.annotation.tailrec
 import scala.collection.immutable.HashMap
@@ -164,6 +165,8 @@ package object parser {
       case (EXPRESSION, Vector(EXPRESSION, MINUS, EXPRESSION)) => BinaryOpNode("-", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])
       case (EXPRESSION, Vector(ID, ASSIGN, EXPRESSION)) => AssignNode(right(2).asInstanceOf[BasicNode].value, right(0).asInstanceOf[ExprNode])
       case (EXPRESSION, Vector(ID)) => IDNode(right(0).asInstanceOf[BasicNode].value)
+      case (EXPRESSION, Vector(IF, LR_BRAC, EXPRESSION, RR_BRAC, BLOCK, ELSE, BLOCK)) => IFNode(right(4).asInstanceOf[ExprNode], right(2).asInstanceOf[StatementsNode], right(0).asInstanceOf[StatementsNode])
+
 
 
       //      case (SyntacticSymbol.STARTER, Vector(SyntacticSymbol.EXPRESSION)) => right(0).asInstanceOf[ExprNode]

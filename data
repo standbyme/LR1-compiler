@@ -1,6 +1,21 @@
 function assign() {
     a = 2*2;
     println(a);
+    a = 5;
+
+    if(a){
+        println(a);
+    }else{
+        println(0);
+    };
+
+        a = 0;
+
+        if(a){
+            println(a);
+        }else{
+            println(0);
+        };
 }
 
 function plus() {

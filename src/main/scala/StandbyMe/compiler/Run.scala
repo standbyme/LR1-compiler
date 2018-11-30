@@ -24,6 +24,7 @@ object Run extends App {
     EXPRESSION -> Vector(EXPRESSION, MULTI, EXPRESSION),
     EXPRESSION -> Vector(EXPRESSION, MINUS, EXPRESSION),
     EXPRESSION -> Vector(ID, ASSIGN, EXPRESSION),
+    EXPRESSION -> Vector(IF, LR_BRAC, EXPRESSION, RR_BRAC, BLOCK, ELSE, BLOCK)
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.FOR_KEYWORD, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC),
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION),

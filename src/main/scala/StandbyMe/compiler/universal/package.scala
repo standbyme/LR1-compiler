@@ -34,6 +34,7 @@ package object universal {
     override def exec(env: Env): ExecResult = value match {
       case "+" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value + right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
       case "-" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value - right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
+      case "*" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value * right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
     }
   }
 
@@ -57,11 +58,11 @@ package object universal {
     }
   }
 
-  //  case class AssignNode(left: IDNode, right: ExprNode) extends ExprNode {
-  //    override def toString: String = s"$left = $right"
-  //
-  //    def exec() = Unit
-  //  }
+  case class AssignNode(key: String, value: ExprNode) extends ExprNode {
+    override def toString: String = s"$key = $value"
+
+    override def exec(env: Env): ExecResult = ExecResult(null, env.set(key, value.exec(env).value))
+  }
 
   //  case class InitNode(TYPE: String, left: BasicNode, right: ExprNode) extends ExprNode {
   //    override def toString: String = s"$left init to $TYPE type and assigned value $right"

@@ -19,8 +19,11 @@ object Run extends App {
     EXPRESSION -> Vector(INT),
     EXPRESSION -> Vector(PRINTLN, LR_BRAC, EXPRESSION, RR_BRAC),
     EXPRESSION -> Vector(ID, LR_BRAC, RR_BRAC),
+    EXPRESSION -> Vector(ID),
     EXPRESSION -> Vector(EXPRESSION, PLUS, EXPRESSION),
+    EXPRESSION -> Vector(EXPRESSION, MULTI, EXPRESSION),
     EXPRESSION -> Vector(EXPRESSION, MINUS, EXPRESSION),
+    EXPRESSION -> Vector(ID, ASSIGN, EXPRESSION),
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.INT_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.ASSIGN, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC),
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.FOR_KEYWORD, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.EXPRESSION, SyntacticSymbol.SEMIC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC, SyntacticSymbol.L_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.R_BRAC),
     //    SyntacticSymbol.EXPRESSION -> Vector(SyntacticSymbol.EXPRESSION, SyntacticSymbol.PLUS, SyntacticSymbol.EXPRESSION),
@@ -53,7 +56,7 @@ object Run extends App {
 
   val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
   println("---Execute Output---")
-//  println(node)
+  //  println(node)
 
 
   val init_env: Env = Env(None, node.asInstanceOf[FunctionsNode].toTable)

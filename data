@@ -1,3 +1,8 @@
+function assign() {
+    a = 2*2;
+    println(a);
+}
+
 function plus() {
     println(3+3);
 }
@@ -7,6 +12,9 @@ function minus() {
 }
 
 function main() {
+    println(123);
+    assign();
     plus();
     minus();
+    println(456);
 }

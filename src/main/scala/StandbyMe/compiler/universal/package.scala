@@ -28,9 +28,14 @@ package object universal {
 
   trait ExprNode extends Node
 
-  //  case class BinaryOpNode(value: String, left: ExprNode, right: ExprNode) extends ExprNode {
-  //    override def toString: String = s"$left $value $right"
-  //  }
+  case class BinaryOpNode(value: String, left: ExprNode, right: ExprNode) extends ExprNode {
+    override def toString: String = s"$left $value $right"
+
+    override def exec(env: Env): ExecResult = value match {
+      case "+" => ExecResult(IntegerLiteralNode(left.exec(env).value.asInstanceOf[IntegerLiteralNode].value + right.exec(env).value.asInstanceOf[IntegerLiteralNode].value), env)
+    }
+  }
+
   //
   //  case class UnaryOpNode(value: String, left: BasicNode) extends ExprNode {
   //    override def toString: String = s"$value $left"

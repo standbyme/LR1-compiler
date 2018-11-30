@@ -1,5 +1,5 @@
 function go() {
-    println(3);
+    println(3+2);
 }
 
 function main() {

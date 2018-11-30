@@ -1,6 +1,6 @@
 package StandbyMe.compiler
 
-import StandbyMe.compiler.universal.{BasicNode, Node, SyntacticSymbol, Token}
+import StandbyMe.compiler.universal.{BasicNode, Node, FunctionsNode, SyntacticSymbol, Token}
 import StandbyMe.compiler.universal.SyntacticSymbol._
 import StandbyMe.parser.{Production, Table, compute_Table, LR}
 import StandbyMe.lexer.Lexer
@@ -51,6 +51,9 @@ object Run extends App {
 
   val (node, rest) = LR(Table(action, goto))(init_status_stack, init_node_stack, init_buffer)
   println("---Execute Output---")
-  print(node)
+
+
+
+  node.asInstanceOf[FunctionsNode]
 
 }

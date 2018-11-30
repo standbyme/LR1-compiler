@@ -90,8 +90,8 @@ package object universal {
     override def exec(env: Env): ExecResult = throw new Exception("BasicNode can't exec")
   }
 
-  case class FunctionNode(idNode: IDNode, statementsNode: StatementsNode) extends Node {
-    override def toString: String = s"(call function $idNode ($statementsNode))"
+  case class FunctionNode(name: String, statementsNode: StatementsNode) extends Node {
+    override def toString: String = s"(call function $name ($statementsNode))"
 
     override def exec(env: Env): ExecResult = statementsNode.exec(env)
 
@@ -114,7 +114,10 @@ package object universal {
     override def exec(env: Env): ExecResult = null
 
     def toTable: Map[String, Node] = {
-      null
+      otherNodeOpt match {
+        case Some(otherNode) => otherNode.toTable + (functionNode.name -> functionNode)
+        case None => Map(functionNode.name -> functionNode)
+      }
     }
   }
 

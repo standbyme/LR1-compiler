@@ -10,7 +10,7 @@ object Run extends App {
   val production__vector = Vector[Production](
     STARTER -> Vector(FUNCTIONS),
     FUNCTIONS -> Vector(FUNCTION),
-    FUNCTIONS -> Vector(FUNCTION, FUNCTIONS),
+    FUNCTIONS -> Vector(FUNCTIONS, FUNCTION),
     FUNCTION -> Vector(FUNCTION_KEYWORD, ID, LR_BRAC, RR_BRAC, BLOCK),
     BLOCK -> Vector(L_BRAC, STATEMENTS, R_BRAC),
     STATEMENTS -> Vector(STATEMENT),

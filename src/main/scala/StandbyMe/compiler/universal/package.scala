@@ -121,20 +121,12 @@ package object universal {
 
   }
 
-  case class FunctionsNode(functionNode: FunctionNode, otherNodeOpt: Option[FunctionsNode]) extends Node {
-    override def toString: String = otherNodeOpt match {
-      case Some(otherNode) => s"$functionNode $otherNode"
-      case None => s"$functionNode"
-    }
+  case class FunctionsNode(list: List[FunctionNode]) extends Node {
+    override def toString: String = list.mkString("\n")
 
     override def exec(env: Env): ExecResult = null
 
-    def toTable: Map[String, Node] = {
-      otherNodeOpt match {
-        case Some(otherNode) => otherNode.toTable + (functionNode.name -> functionNode)
-        case None => Map(functionNode.name -> functionNode)
-      }
-    }
+    def toTable: Map[String, Node] = list.map(f => f.name -> f).toMap
   }
 
   case class StatementNode(exprNode: ExprNode) extends Node {

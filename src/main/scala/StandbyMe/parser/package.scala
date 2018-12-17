@@ -156,8 +156,8 @@ package object parser {
       case (SyntacticSymbol.STATEMENTS, Vector(SyntacticSymbol.STATEMENT, SyntacticSymbol.STATEMENTS)) => StatementsNode(right(1).asInstanceOf[StatementNode], Some(right(0).asInstanceOf[StatementsNode]))
       case (SyntacticSymbol.BLOCK, Vector(SyntacticSymbol.L_BRAC, SyntacticSymbol.STATEMENTS, SyntacticSymbol.R_BRAC)) => right(1).asInstanceOf[StatementsNode]
       case (SyntacticSymbol.FUNCTION, Vector(SyntacticSymbol.FUNCTION_KEYWORD, SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC, SyntacticSymbol.BLOCK)) => FunctionNode(right(3).asInstanceOf[BasicNode].value, right(0).asInstanceOf[StatementsNode])
-      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION)) => FunctionsNode(right(0).asInstanceOf[FunctionNode], None)
-      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION, SyntacticSymbol.FUNCTIONS)) => FunctionsNode(right(1).asInstanceOf[FunctionNode], Some(right(0).asInstanceOf[FunctionsNode]))
+      case (SyntacticSymbol.FUNCTIONS, Vector(SyntacticSymbol.FUNCTION)) => FunctionsNode(List(right(0).asInstanceOf[FunctionNode]))
+      case (FUNCTIONS, Vector(FUNCTIONS, FUNCTION)) => FunctionsNode(right(0).asInstanceOf[FunctionNode] :: right(1).asInstanceOf[FunctionsNode].list)
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.PRINTLN, SyntacticSymbol.LR_BRAC, SyntacticSymbol.EXPRESSION, SyntacticSymbol.RR_BRAC)) => PrintlnNode(right(1).asInstanceOf[ExprNode])
       case (SyntacticSymbol.EXPRESSION, Vector(SyntacticSymbol.ID, SyntacticSymbol.LR_BRAC, SyntacticSymbol.RR_BRAC)) => FunctionCallNode(right(2).asInstanceOf[BasicNode].value)
       case (EXPRESSION, Vector(EXPRESSION, PLUS, EXPRESSION)) => BinaryOpNode("+", right(2).asInstanceOf[ExprNode], right(0).asInstanceOf[ExprNode])

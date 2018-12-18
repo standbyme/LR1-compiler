@@ -5,11 +5,7 @@ import scala.collection.mutable.ListBuffer
 import StandbyMe.compiler.universal.Token
 object Lexer {
 
-  @tailrec
-  def skip_blank(char__list: List[Char]): List[Char] = char__list match {
-    case Nil => Nil
-    case complete@c :: rest => if (c.isWhitespace) skip_blank(rest) else complete
-  }
+  def skip_blank(char__list: List[Char]): List[Char] = char__list.span(_.isWhitespace)._2
 
   @tailrec
   def outer(identified_token__listbuffer: ListBuffer[Token], rest_char__list: List[Char]): List[Token] = {

@@ -9,7 +9,7 @@ object Matcher {
   type MatchResult = Option[(Token, List[Char])]
 
   def keyword_matcher(char__list: List[Char]): MatchResult = char__list match {
-    case 'p' :: 'r' :: 'i' :: 'n' :: 't' ::'l' :: 'n':: rest_char__list => Some(((PRINTLN, null), rest_char__list))
+    case 'p' :: 'r' :: 'i' :: 'n' :: 't' :: 'l' :: 'n' :: rest_char__list => Some(((PRINTLN, null), rest_char__list))
     case 'i' :: 'f' :: rest_char__list => Some(((IF, null), rest_char__list))
     case 'f' :: 'u' :: 'n' :: 'c' :: 't' :: 'i' :: 'o' :: 'n' :: rest_char__list => Some(((FUNCTION_KEYWORD, null), rest_char__list))
     case 'f' :: 'o' :: 'r' :: rest_char__list => Some(((FOR_KEYWORD, null), rest_char__list))
@@ -42,52 +42,26 @@ object Matcher {
     case _ => None
   }
 
-  @tailrec
-  def integer_constant_matcher_helper(char__zipper: Zipper[Char]): Option[(List[Char], List[Char])] = {
-    val past = char__zipper.past
-    val now = char__zipper.now
-    val future = char__zipper.future
-    if (now.isDigit) char__zipper.forward match {
-      case Some(next_char__zipper) => integer_constant_matcher_helper(next_char__zipper)
-      case None =>
-        assert(future == Nil)
-        Some((now :: past, future))
-    } else {
-      if (past.nonEmpty) Some((past, now :: future))
-      else None
-    }
-  }
-
   def integer_constant_matcher(char__list: List[Char]): MatchResult = {
-    val char__zipper = Zipper(char__list)
-    integer_constant_matcher_helper(char__zipper) map { case (identified_char__list, rest_char__list) => ((INT, identified_char__list.reverse.mkString("")), rest_char__list) }
+    val (identified_char__list, rest_char__list) = char__list.span(_.isDigit)
+    identified_char__list match {
+      case Nil => None
+      case _ => Some((INT, identified_char__list.mkString("")), rest_char__list)
+    }
   }
 
   def is_valid_char_in_identifier(char: Char): Boolean = char.isLetter || char == '_'
 
-
-  @tailrec
-  def identifier_matcher_helper(char__zipper: Zipper[Char]): Option[(List[Char], List[Char])] = {
-    val past = char__zipper.past
-    val now = char__zipper.now
-    val future = char__zipper.future
-    if (is_valid_char_in_identifier(now)) char__zipper.forward match {
-      case Some(next_char__zipper) => identifier_matcher_helper(next_char__zipper)
-      case None =>
-        assert(future == Nil)
-        Some((now :: past, future))
-    } else {
-      if (past.nonEmpty) Some((past, now :: future))
-      else None
-    }
-  }
-
   /**
     * the prefix of ID can't be keyword
     */
+
   def identifier_matcher(char__list: List[Char]): MatchResult = {
-    val char__zipper = Zipper(char__list)
-    identifier_matcher_helper(char__zipper) map { case (identified_char__list, rest_char__list) => ((ID, identified_char__list.reverse.mkString("")), rest_char__list) }
+    val (identified_char__list, rest_char__list) = char__list.span(is_valid_char_in_identifier)
+    identified_char__list match {
+      case Nil => None
+      case _ => Some((ID, identified_char__list.mkString("")), rest_char__list)
+    }
   }
 
   def constant_matcher(char__list: List[Char]): MatchResult = {
